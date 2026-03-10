@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦐 小虾秘网页助手</title>
+  <!-- 引入Element Plus CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      width: 400px;
+      min-height: 500px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+    #app {
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+    }
+    .header h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title::before {
+      content: "🦐";
+      font-size: 20px;
+    }
+    .action-btn {
+      width: 100%;
+      height: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 10px;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    .action-btn:active {
+      transform: translateY(0);
+    }
+    .status {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+    }
+    .success {
+      color: #67c23a;
+      font-weight: bold;
+    }
+    .error {
+      color: #f56c6c;
+      font-weight: bold;
+    }
+    .footer {
+      text-align: center;
+      color: white;
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <h1>🦐 小虾秘网页助手</h1>
+      <p>一键推送网页内容到飞书</p>
+    </div>
+
+    <!-- 配置卡片 -->
+    <div class="card">
+      <div class="card-title">飞书机器人配置</div>
+      <el-form label-width="80px" size="small">
+        <el-form-item label="Webhook">
+          <el-input v-model="config.webhook" placeholder="请输入飞书机器人Webhook地址" clearable />
+        </el-form-item>
+        <el-form-item label="加签密钥">
+          <el-input v-model="config.secret" placeholder="请输入飞书机器人加签密钥（可选）" clearable />
+        </el-form-item>
+        <el-button type="primary" @click="saveConfig" size="small" style="width: 100%;">保存配置</el-button>
+      </el-form>
+    </div>
+
+    <!-- 操作卡片 -->
+    <div class="card">
+      <div class="card-title">网页操作</div>
+      <button class="action-btn" @click="extractAndPush" :disabled="loading">
+        {{ loading ? '处理中...' : '📤 推送当前页面到飞书' }}
+      </button>
+      <div class="status" :class="{success: status === 'success', error: status === 'error'}">
+        {{ statusText }}
+      </div>
+    </div>
+
+    <div class="footer">
+      小虾秘 © 2026 | 你的私人AI助手
+    </div>
+  </div>
+
+  <!-- 引入Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- 引入Element Plus -->
+  <script src="https://unpkg.com/element-plus/dist/index.full.js"></script>
+  <!-- 引入CryptoJS用于加签 -->
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+  <!-- 引入Readability -->
+  <script src="https://cdn.jsdelivr.net/npm/@mozilla/readability@0.4.4/Readability.min.js"></script>
+
+  <script src="popup.js"></script>
+</body>
+</html>
