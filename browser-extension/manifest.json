@@ -3,11 +3,6 @@
   "name": "🦐 小虾秘网页助手",
   "version": "1.0.0",
   "description": "一键抓取网页内容推送到飞书机器人",
-  "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
   "action": {
     "default_title": "小虾秘网页助手",
     "default_popup": "popup.html"
